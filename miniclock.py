@@ -1,5 +1,6 @@
 import tkinter as tk
 from time import strftime
+from tkinter import font as tkfont
 
 def time():
     """Update the clock label with the current time."""
@@ -31,7 +32,7 @@ root.overrideredirect(True)
 root.attributes('-topmost', True)
 
 # Set the dimensions and style of the window
-width = 110
+width = 112
 height = 40
 root.geometry(f"{width}x{height}")
 
@@ -44,8 +45,18 @@ y = (screen_height // 2) - (height // 2)  # Center vertically
 root.geometry(f"{width}x{height}+{x}+{y}")
 root.configure(bg='black')  # Background color
 
-# Create the time label with smaller text and padding
-label = tk.Label(root, font=('calibri', 15, 'bold'), background='black', foreground='white')
+# Create a font with fallback
+def get_font(family, size, weight='normal'):
+    try:
+        return tkfont.Font(family=family, size=size, weight=weight)
+    except tkfont.TclError:
+        return tkfont.Font(family='Arial', size=size, weight=weight)
+
+# Use the custom font function
+custom_font = get_font('Poppins', 13, 'bold')
+
+# Create the time label with the custom font
+label = tk.Label(root, font=custom_font, background='black', foreground='white')
 label.pack(expand=True)  # Center the label within the window
 
 # Call the time function
